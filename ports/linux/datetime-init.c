@@ -73,7 +73,8 @@ bool datetime_local(BACNET_DATE *bdate,
             /* timezone is set to the difference, in seconds,
                 between Coordinated Universal Time (UTC) and
                 local standard time */
-            *utc_offset_minutes = timezone / 60;
+            //*utc_offset_minutes = timezone / 60;
+            *utc_offset_minutes = (tblock->tm_gmtoff / 60)*(-1);
         }
     }
 

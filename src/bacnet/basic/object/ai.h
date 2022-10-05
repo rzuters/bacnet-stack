@@ -28,6 +28,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <time.h>
 #include "bacnet/bacnet_stack_exports.h"
 #include "bacnet/bacdef.h"
 #include "bacnet/rp.h"
@@ -43,32 +44,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-    typedef struct analog_input_descr {
-        unsigned Event_State:3;
-        float Present_Value;
-        BACNET_RELIABILITY Reliability;
-        bool Out_Of_Service;
-        uint8_t Units;
-        float Prior_Value;
-        float COV_Increment;
-        bool Changed;
-#if defined(INTRINSIC_REPORTING)
-        uint32_t Time_Delay;
-        uint32_t Notification_Class;
-        float High_Limit;
-        float Low_Limit;
-        float Deadband;
-        unsigned Limit_Enable:2;
-        unsigned Event_Enable:3;
-        unsigned Notify_Type:1;
-        ACKED_INFO Acked_Transitions[MAX_BACNET_EVENT_TRANSITION];
-        BACNET_DATE_TIME Event_Time_Stamps[MAX_BACNET_EVENT_TRANSITION];
-        /* time to generate event notification */
-        uint32_t Remaining_Time_Delay;
-        /* AckNotification information */
-        ACK_NOTIFICATION Ack_notify_data;
-#endif
-    } ANALOG_INPUT_DESCR;
+typedef struct analog_input_descr ANALOG_INPUT_DESCR;
 
     BACNET_STACK_EXPORT
     void Analog_Input_Property_Lists(
@@ -99,7 +75,7 @@ extern "C" {
     BACNET_STACK_EXPORT
     bool Analog_Input_Name_Set(
         uint32_t object_instance,
-        char *new_name);
+        const char* new_name);
 
     BACNET_STACK_EXPORT
     char *Analog_Input_Description(
@@ -112,7 +88,7 @@ extern "C" {
     BACNET_STACK_EXPORT
     bool Analog_Input_Units_Set(
         uint32_t instance,
-        uint16_t units);
+        BACNET_ENGINEERING_UNITS unitID);
     BACNET_STACK_EXPORT
     uint16_t Analog_Input_Units(
         uint32_t instance);
@@ -130,7 +106,8 @@ extern "C" {
     BACNET_STACK_EXPORT
     void Analog_Input_Present_Value_Set(
         uint32_t object_instance,
-        float value);
+        float value,
+        time_t rxTime);
 
     BACNET_STACK_EXPORT
     bool Analog_Input_Out_Of_Service(
@@ -197,6 +174,10 @@ extern "C" {
     BACNET_STACK_EXPORT
     void Analog_Input_Init(
         void);
+
+    void Analog_Input_UTCOffset_Set(
+        uint32_t object_instance,
+        int16_t _utcOffset);
 
 #ifdef __cplusplus
 }

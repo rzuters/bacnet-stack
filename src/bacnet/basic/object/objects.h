@@ -31,6 +31,7 @@
 #include "bacnet/bacdef.h"
 #include "bacnet/bacstr.h"
 #include "bacnet/bacenum.h"
+#include "bacnet/basic/sys/keylist.h"
 
 typedef struct object_device_t {
     BACNET_OBJECT_ID Object_Identifier;

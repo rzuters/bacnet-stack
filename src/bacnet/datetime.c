@@ -272,9 +272,16 @@ void datetime_days_since_epoch_into_date(uint32_t days, BACNET_DATE *bdate)
 uint8_t datetime_day_of_week(uint16_t year, uint8_t month, uint8_t day)
 {
     uint8_t dow = (uint8_t)BACNET_DAY_OF_WEEK_EPOCH;
-
-    dow += (datetime_ymd_to_days_since_epoch(year, month, day) % 7);
-
+    
+    uint32_t daysSinceEpoch = datetime_ymd_to_days_since_epoch(year, month, day);
+    uint32_t tmp = daysSinceEpoch % 7;
+    //! Original version
+    /*dow += (datetime_ymd_to_days_since_epoch(year, month, day) % 7);*/
+    dow += tmp;
+    dow = dow % 7;
+    if(dow == 0){
+        dow = BACNET_WEEKDAY_SUNDAY;
+    }
     return dow;
 }
 
@@ -704,8 +711,8 @@ bacnet_time_t datetime_seconds_since_epoch(BACNET_DATE_TIME *bdatetime)
  * @param bdatetime [out] the starting date and time
  * @param seconds since epoch
  */
-void datetime_since_epoch_seconds(
-    BACNET_DATE_TIME *bdatetime, bacnet_time_t seconds)
+void datetime_since_epoch_seconds(BACNET_DATE_TIME *bdatetime,
+    bacnet_time_t seconds)
 {
     uint32_t seconds_after_midnight = 0;
     uint32_t days = 0;

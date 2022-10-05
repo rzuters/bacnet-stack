@@ -139,6 +139,13 @@ typedef void (
     *object_intrinsic_reporting_function) (
     uint32_t object_instance);
 
+/** Object create function
+ *  @ingroup ObjHelpers
+ */
+typedef bool (
+    *object_create_function) (
+        uint32_t object_instance);
+
 
 /** Defines the group of object helper functions for any supported Object.
  * @ingroup ObjHelpers
@@ -165,6 +172,7 @@ typedef struct object_functions {
     object_cov_function Object_COV;
     object_cov_clear_function Object_COV_Clear;
     object_intrinsic_reporting_function Object_Intrinsic_Reporting;
+    object_create_function Object_Create;
 } object_functions_t;
 
 /* String Lengths - excluding any nul terminator */
@@ -173,6 +181,7 @@ typedef struct object_functions {
 #define MAX_DEV_MOD_LEN  32
 #define MAX_DEV_VER_LEN  16
 #define MAX_DEV_DESC_LEN 64
+#define MAX_DEV_RPASSW_LEN 16
 
 /** Structure to define the Object Properties common to all Objects. */
 typedef struct commonBacObj_s {
@@ -385,6 +394,11 @@ extern "C" {
     BACNET_STACK_EXPORT
     bool Device_Set_Location(
         const char *name,
+        size_t length);
+    
+    BACNET_STACK_EXPORT
+    bool Device_Set_Reinit_Password(
+        char* reinitPassword,
         size_t length);
 
     /* some stack-centric constant values - no set methods */

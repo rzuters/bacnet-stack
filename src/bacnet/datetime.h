@@ -29,9 +29,12 @@
 #include "bacnet/bacnet_stack_exports.h"
 
 /* define our epic beginnings */
-#define BACNET_DATE_YEAR_EPOCH 1900
+//#define BACNET_DATE_YEAR_EPOCH 1900
 /* 1/1/1900 is a Monday */
-#define BACNET_DAY_OF_WEEK_EPOCH BACNET_WEEKDAY_MONDAY
+//#define BACNET_DAY_OF_WEEK_EPOCH BACNET_WEEKDAY_MONDAY
+#define BACNET_DATE_YEAR_EPOCH 1970
+/* 1/1/1970 is a Thursday */
+#define BACNET_DAY_OF_WEEK_EPOCH BACNET_WEEKDAY_THURSDAY
 
 typedef enum BACnet_Weekday {
     BACNET_WEEKDAY_MONDAY = 1,
@@ -282,6 +285,7 @@ bool datetime_local(BACNET_DATE *bdate,
     BACNET_TIME *btime,
     int16_t *utc_offset_minutes,
     bool *dst_active);
+
 BACNET_STACK_EXPORT
 void datetime_init(void);
 
