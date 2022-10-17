@@ -172,7 +172,6 @@ typedef struct object_functions {
     object_cov_function Object_COV;
     object_cov_clear_function Object_COV_Clear;
     object_intrinsic_reporting_function Object_Intrinsic_Reporting;
-    object_create_function Object_Create;
 } object_functions_t;
 
 /* String Lengths - excluding any nul terminator */

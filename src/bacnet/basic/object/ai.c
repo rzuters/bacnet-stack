@@ -50,10 +50,6 @@
 #define PRINTF(...)
 #endif
 
-//#ifndef MAX_ANALOG_INPUTS
-//#define MAX_ANALOG_INPUTS 4
-//#endif
-
 //! Custom property specific for Analog Input object type
 //------------------------------------------------------------------------------
 #define CUST_PROP_RXTIME                                                    9997
@@ -91,8 +87,6 @@ struct analog_input_descr{
 #endif
 };
 
-//static ANALOG_INPUT_DESCR AI_Descr[MAX_ANALOG_INPUTS];
-
 /* Key List for storing the object data sorted by instance number  */
 static OS_Keylist Object_List;
 //------------------------------------------------------------------------------
@@ -127,56 +121,12 @@ void Analog_Input_Property_Lists(const int **pRequired, const int **pOptional,
 }
 //------------------------------------------------------------------------------
 void Analog_Input_Init(void){
-//     unsigned i;
-// #if defined(INTRINSIC_REPORTING)
-//     unsigned j;
-// #endif
-
-//     for (i = 0; i < MAX_ANALOG_INPUTS; i++) {
-//         AI_Descr[i].Present_Value = 0.0f;
-//         AI_Descr[i].Out_Of_Service = false;
-//         AI_Descr[i].Units = UNITS_PERCENT;
-//         AI_Descr[i].Reliability = RELIABILITY_NO_FAULT_DETECTED;
-//         AI_Descr[i].Prior_Value = 0.0f;
-//         AI_Descr[i].COV_Increment = 1.0f;
-//         AI_Descr[i].Changed = false;
-// #if defined(INTRINSIC_REPORTING)
-//         AI_Descr[i].Event_State = EVENT_STATE_NORMAL;
-//         /* notification class not connected */
-//         AI_Descr[i].Notification_Class = BACNET_MAX_INSTANCE;
-//         /* initialize Event time stamps using wildcards
-//            and set Acked_transitions */
-//         for (j = 0; j < MAX_BACNET_EVENT_TRANSITION; j++) {
-//             datetime_wildcard_set(&AI_Descr[i].Event_Time_Stamps[j]);
-//             AI_Descr[i].Acked_Transitions[j].bIsAcked = true;
-//         }
-
-//         /* Set handler for GetEventInformation function */
-//         handler_get_event_information_set(
-//             OBJECT_ANALOG_INPUT, Analog_Input_Event_Information);
-//         /* Set handler for AcknowledgeAlarm function */
-//         handler_alarm_ack_set(OBJECT_ANALOG_INPUT, Analog_Input_Alarm_Ack);
-//         /* Set handler for GetAlarmSummary Service */
-//         handler_get_alarm_summary_set(
-//             OBJECT_ANALOG_INPUT, Analog_Input_Alarm_Summary);
-// #endif
-//     }
-
     if(Object_List)
         Analog_Input_Cleanup();
 
     Object_List = Keylist_Create();
     if(Object_List){
         atexit(Analog_Input_Cleanup);
-        /*
-        for(unsigned i = 0; i < MAX_ANALOG_INPUTS; i++){
-            if(Analog_Input_Create(i)){
-                char str[32];
-                sprintf(str, "Analog Input(%d)", i);
-                Analog_Input_Name_Set(i, str);
-            }
-        }
-        */
     }
 }
 //------------------------------------------------------------------------------
@@ -200,7 +150,6 @@ void Analog_Input_Cleanup(void){
         Keylist_Delete(Object_List);
         Object_List = NULL;
     }
-    printf("Analog_Input_Cleanup() was called");
 }
 //------------------------------------------------------------------------------
 /* we simply have 0-n object instances.  Yours might be */
